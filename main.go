@@ -7,21 +7,16 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/echo", echo)
+	router := http.NewServeMux()
+
+	router.HandleFunc("GET /hello", hello)
 
 	fmt.Println("Starting server at port: 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func echo(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/echo" {
-		http.Error(w, "404 not found", http.StatusNotFound)
-		return
-	}
-	if r.Method != "GET" {
-		http.Error(w, "method is not supported", http.StatusNotFound)
-	}
-	fmt.Fprintf(w, "hello!")
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "HELLO!")
 }
