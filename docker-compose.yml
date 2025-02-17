@@ -1,7 +1,37 @@
-version: '3'
 
 services:
   api:
     build: .
     ports:
-      - "8080:8080  "
+      - "8080:8080"
+    command: go run main.go
+    container_name: simple-go-server-api 
+    environment:
+      - PORT=8080
+      - HOST=localhost
+      - POSTGRES_URL=postgres://postgres:postgres@api_db:5432/template?sslmode=disable
+    depends_on:
+      - api_db
+  api_db:
+    image: postgres:16.4-alpine3.20
+    container_name: simple-go-server-api-db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=template
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  nginx:
+    image: nginx:stable-alpine
+    container_name: simple-go-server-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+
