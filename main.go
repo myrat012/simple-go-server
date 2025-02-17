@@ -59,12 +59,12 @@ func connectionDB() {
 	}
 
 	// Execute Insert
-	var insertedID int
-	err = conn.QueryRow(context.Background(), `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id;`, "John Doe", "john@example.com").Scan(&insertedID)
-	if err != nil {
-		log.Fatalf("Failed to insert data: %v\n", err)
-	}
+	// var insertedID int
+	// err = conn.QueryRow(context.Background(), `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id;`, "John Doe", "john@example.com").Scan(&insertedID)
+	// if err != nil {
+	// 	log.Fatalf("Failed to insert data: %v\n", err)
+	// }
 
 	fmt.Println()
-	fmt.Printf("Inserted user with ID: %d\n", insertedID)
+	// fmt.Printf("Inserted user with ID: %d\n", insertedID)
 }
